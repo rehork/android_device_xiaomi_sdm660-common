@@ -599,6 +599,7 @@ PRODUCT_PACKAGES += \
     libqsap_sdk \
     libwifi-hal-qcom \
     WifiOverlay \
+    TetheringConfigOverlay \
     wpa_supplicant \
     wpa_supplicant.conf \
     wpa_cli
