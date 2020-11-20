@@ -1138,4 +1138,7 @@
         <!-- ID0:Fingerprint:Strong -->
         <item>0:2:15</item>
     </string-array>
+
+    <!-- Smart charging -->
+    <bool name="config_smartChargingAvailable">true</bool>
 </resources>
