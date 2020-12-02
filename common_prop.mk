@@ -223,7 +223,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     media.stagefright.enable-scan=true \
     media.stagefright.thumbnail.prefer_hw_codecs=true \
     mm.enable.qcom_parser=13631471 \
-    mm.enable.smoothstreaming=true \
     mmp.enable.3g2=true \
     persist.mm.enable.prefetch=true \
     vendor.vidc.dec.enable.downscalar=1 \
