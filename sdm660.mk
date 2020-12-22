@@ -216,10 +216,6 @@ PRODUCT_PACKAGES += \
     vendor.display.config@1.9 \
     vendor.display.config@1.9_vendor
 
-# Doze
-#PRODUCT_PACKAGES += \
-#    XiaomiDoze
-
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.0-impl \
@@ -630,7 +626,3 @@ PRODUCT_PACKAGES += \
 # WiFi Display JAR
 PRODUCT_BOOT_JARS += \
     WfdCommon
-
-# XiaomiParts
-#PRODUCT_PACKAGES += \
-#   XiaomiParts
