@@ -85,7 +85,6 @@ TARGET_NO_BOOTLOADER := true
 
 # Board
 TARGET_BOARD_PLATFORM := sdm660
-BOARD_VENDOR := xiaomi
 
 # Build Rules
 BUILD_BROKEN_DUP_RULES := true
