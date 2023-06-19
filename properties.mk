@@ -33,7 +33,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.af.client_heap_size_kbyte=7168 \
     vendor.audio.volume.headset.gain.depcal=true \
     persist.vendor.bt.aac_frm_ctl.enabled=true \
-    vendor.audio.spkr_prot.tx.sampling_rate=48000
+    vendor.audio.spkr_prot.tx.sampling_rate=48000 \
+    audio.offload.min.duration.secs=30
 
 PRODUCT_PROPERTY_OVERRIDES += \
     vendor.audio.feature.afe_proxy.enable=true \
@@ -80,7 +81,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.media_vol_steps=25 \
-    ro.config.vc_call_vol_steps=7 \
+    ro.config.vc_call_vol_steps=11 \
     vendor.audio.adm.buffering.ms=6
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
@@ -132,6 +133,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.surface_flinger.vsync_event_phase_offset_ns=2000000 \
     ro.surface_flinger.vsync_sf_event_phase_offset_ns=6000000 \
     ro.vendor.display.cabl=0 \
+    persist.sys.wfd.virtual=0 \
+    debug.gralloc.enable_fb_ubwc=1 \
     vendor.display.disable_skip_validate=1 \
     vendor.display.enable_default_color_mode=0 \
     vendor.gralloc.enable_fb_ubwc=1 \
@@ -155,7 +158,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.dbg.volte_avail_ovr=1 \
     persist.dbg.vt_avail_ovr=1  \
-    persist.dbg.wfc_avail_ovr=1
+    persist.dbg.wfc_avail_ovr=1 \
+    persist.vendor.ims.disableUserAgent=0
 
 # LMKD
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -167,10 +171,14 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     debug.stagefright.omx_default_rank=0 \
     media.stagefright.thumbnail.prefer_hw_codecs=true \
+    mm.enable.smoothstreaming=true \
     ro.media.recorder-max-base-layer-fps=60 \
     vendor.vidc.dec.enable.downscalar=1 \
     vendor.vidc.enc.disable_bframes=1 \
     vendor.vidc.enc.disable.pq=true
+
+# Memory optimizations
+ro.vendor.qti.sys.fw.bservice_enable=true
 
 # Netflix
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
@@ -189,10 +197,18 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.radio.atfwd.start=true \
     persist.vendor.radio.custom_ecc=1 \
     persist.vendor.radio.data_con_rprt=1 \
+    persist.vendor.radio.flexmap_type=none \
+    persist.vendor.radio.force_on_dc=true \
+    persist.vendor.radio.procedure_bytes=SKIP \
     persist.vendor.radio.rat_on=combine \
     persist.vendor.radio.sib16_support=1 \
+    ro.com.android.dataroaming=true \
     ro.telephony.default_network=22,22 \
-    ro.vendor.use_data_netmgrd=true
+    ro.vendor.use_data_netmgrd=true \
+    persist.vendor.radio.redir_party_num=1 \
+    persist.vendor.radio.report_codec=1
+
+
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     DEVICE_PROVISIONED=1 \
@@ -216,7 +232,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # WFD
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-    persist.debug.wfd.enable=1
+    persist.debug.wfd.enable=0 \
+    persist.sys.wfd.virtual=0
+
 
 # Set lmkd options
 PRODUCT_PRODUCT_PROPERTIES += \
