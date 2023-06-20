@@ -350,16 +350,20 @@ PRODUCT_PACKAGES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power-service \
+    android.hardware.power@1.2.vendor \
+    android.hardware.power-service-qti
     android.hardware.power@1.0-service \
     android.hardware.power@1.0-impl \
     android.hardware.power.stats@1.0-service.mock \
-    vendor.qti.hardware.perf@1.0.vendor \
-    vendor.qti.hardware.perf@2.0.vendor \
     android.hardware.power@1.3-service.xiaomi_sdm660-libperfmgr
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/perf/perf-profile0.conf:$(TARGET_COPY_OUT_VENDOR)/etc/perf/perf-profile0.conf
+
+# Perf
+PRODUCT_PACKAGES += \
+    vendor.qti.hardware.perf@1.0.vendor \
+    vendor.qti.hardware.perf@2.0.vendor
 
 # Powerhint
 ifeq ($(EAS_POWERHINT_VARIANT), sdm636)
