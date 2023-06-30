@@ -174,6 +174,13 @@
         <item>"/system_ext/priv-app/SystemUI/SystemUI.apk"</item>
         <item>"/system_ext/priv-app/SystemUI/oat/arm64/SystemUI.odex"</item>
         <item>"/system/lib64/libsurfaceflinger.so"</item>
+        <item>/system/lib64/libRScpp.so</item>
+        <item>/system/lib64/libRS.so</item>
+        <item>/system/lib64/libRS_internal.so</item>
+        <item>/system/lib64/libbcinfo.so</item>
+        <item>/system/lib64/libRSDriver.so</item>
+        <item>/system/lib64/libRSCpuRef.so</item>
+        <item>/system/lib64/libblas.so</item>
     </string-array>
 
     <!-- List of files pinned by the Pinner Service with the JIT Zygote boot image b/119800099 -->
@@ -354,4 +361,11 @@
          Settings.System.RING_VIBRATION_INTENSITY more details on the constant values and
          meanings. -->
     <integer name="config_defaultRingVibrationIntensity">3</integer>
+    <!-- See AmbientSensor.AmbientColorTemperatureSensor. The ambient color temperature sensor name. -->
+    <string name="config_displayWhiteBalanceColorTemperatureSensorName">com.google.sensor.color</string>
+
+  <!-- Whether device supports sensor based doze customizations -->
+    <bool name="config_dozePulsePickup">true</bool>
+    <bool name="config_dozePulseTilt">true</bool>
+    <bool name="config_dozePulseProximity">true</bool>
 </resources>

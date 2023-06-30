@@ -14,6 +14,8 @@ cc_binary {
         "libbase",
         "libhidlbase",
         "libutils",
+        "libhardware",
+        "liblog",
         "android.hardware.light@2.0",
     ],
     relative_install_path : "hw",

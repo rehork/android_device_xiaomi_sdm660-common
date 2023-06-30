@@ -29,6 +29,9 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -->
+
+<!-- These resources are around just to allow their values to be customized
+     for different hardware and product builds. -->
 <resources>
     <!-- Enable doze mode -->
     <bool name="doze_display_state_supported">true</bool>
