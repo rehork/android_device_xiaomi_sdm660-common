@@ -158,8 +158,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.dbg.volte_avail_ovr=1 \
     persist.dbg.vt_avail_ovr=1  \
-    persist.dbg.wfc_avail_ovr=1 \
-    persist.vendor.ims.disableUserAgent=0
+    persist.dbg.wfc_avail_ovr=1 
+#    persist.vendor.ims.disableUserAgent=0
 
 # LMKD
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -197,16 +197,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.radio.atfwd.start=true \
     persist.vendor.radio.custom_ecc=1 \
     persist.vendor.radio.data_con_rprt=1 \
-    persist.vendor.radio.flexmap_type=none \
-    persist.vendor.radio.force_on_dc=true \
-    persist.vendor.radio.procedure_bytes=SKIP \
     persist.vendor.radio.rat_on=combine \
     persist.vendor.radio.sib16_support=1 \
-    ro.com.android.dataroaming=true \
     ro.telephony.default_network=22,22 \
-    ro.vendor.use_data_netmgrd=true \
-    persist.vendor.radio.redir_party_num=1 \
-    persist.vendor.radio.report_codec=1
+    ro.vendor.use_data_netmgrd=true
+ #   persist.vendor.radio.redir_party_num=1 \
+ #   persist.vendor.radio.report_codec=1
 
 
 
@@ -232,9 +228,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # WFD
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-    persist.debug.wfd.enable=1 \
-    persist.sys.wfd.virtual=0
-
+    persist.debug.wfd.enable=1
 
 # Set lmkd options
 PRODUCT_PRODUCT_PROPERTIES += \
