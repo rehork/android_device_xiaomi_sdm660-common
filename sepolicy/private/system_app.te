@@ -1,1 +1,6 @@
 hal_client_domain(system_app, hal_mlipay)
+# Suspend
+dontaudit system_app system_suspend_control_service:service_manager { find };
+
+# Zram Access
+allow system_app sysfs_zram:dir search;

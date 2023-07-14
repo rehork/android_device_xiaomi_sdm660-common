@@ -33,8 +33,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.af.client_heap_size_kbyte=7168 \
     vendor.audio.volume.headset.gain.depcal=true \
     persist.vendor.bt.aac_frm_ctl.enabled=true \
-    vendor.audio.spkr_prot.tx.sampling_rate=48000 \
-    audio.offload.min.duration.secs=30
+    vendor.audio.spkr_prot.tx.sampling_rate=48000
 
 PRODUCT_PROPERTY_OVERRIDES += \
     vendor.audio.feature.afe_proxy.enable=true \
@@ -98,6 +97,7 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     persist.vendor.qcom.bluetooth.enable.splita2dp=true \
     persist.vendor.qcom.bluetooth.a2dp_offload_cap=sbc-aptx-aptxhd-aac-ldac \
     ro.bluetooth.library_name=libbluetooth_qti.so \
+    persist.vendor.qcom.bluetooth.soc=cherokee \
     vendor.bluetooth.soc=cherokee
 
 # Camera
@@ -122,9 +122,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.sf.early_gl_app_phase_offset_ns=15000000 \
     debug.sf.early_gl_phase_offset_ns=3000000 \
     debug.sf.enable_gl_backpressure=1 \
-    debug.sf.enable_hwc_vds=1 \
     debug.sf.hw=1 \
     debug.sf.latch_unsignaled=1 \
+    ro.hardware.egl=adreno \
+    ro.hardware.vulkan=sdm660\
     debug.sf.disable_backpressure=1 \
     ro.opengles.version=196610 \
     ro.surface_flinger.force_hwc_copy_for_virtual_displays=true \
@@ -133,8 +134,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.surface_flinger.vsync_event_phase_offset_ns=2000000 \
     ro.surface_flinger.vsync_sf_event_phase_offset_ns=6000000 \
     ro.vendor.display.cabl=0 \
-    persist.sys.wfd.virtual=0 \
-    debug.gralloc.enable_fb_ubwc=1 \
     vendor.display.disable_skip_validate=1 \
     vendor.display.enable_default_color_mode=0 \
     vendor.gralloc.enable_fb_ubwc=1 \
@@ -150,6 +149,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.sf.high_fps_early_gl_phase_offset_ns=9000000 \
     debug.sf.phase_offset_threshold_for_next_vsync_ns=6100000
 
+# Disable vsync for cpu rendered apps
+debug.cpurend.vsync=false
+
 # FRP
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.frp.pst=/dev/block/bootdevice/by-name/frp
@@ -158,8 +160,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.dbg.volte_avail_ovr=1 \
     persist.dbg.vt_avail_ovr=1  \
-    persist.dbg.wfc_avail_ovr=1 
-#    persist.vendor.ims.disableUserAgent=0
+    persist.dbg.wfc_avail_ovr=1
 
 # LMKD
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -171,14 +172,10 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     debug.stagefright.omx_default_rank=0 \
     media.stagefright.thumbnail.prefer_hw_codecs=true \
-    mm.enable.smoothstreaming=true \
     ro.media.recorder-max-base-layer-fps=60 \
     vendor.vidc.dec.enable.downscalar=1 \
     vendor.vidc.enc.disable_bframes=1 \
     vendor.vidc.enc.disable.pq=true
-
-# Memory optimizations
-ro.vendor.qti.sys.fw.bservice_enable=true
 
 # Netflix
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
@@ -197,14 +194,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.radio.atfwd.start=true \
     persist.vendor.radio.custom_ecc=1 \
     persist.vendor.radio.data_con_rprt=1 \
+    persist.vendor.radio.mt_sms_ack=30 \
     persist.vendor.radio.rat_on=combine \
     persist.vendor.radio.sib16_support=1 \
+    ro.telephony.block_binder_thread_on_incoming_calls=false \
     ro.telephony.default_network=22,22 \
     ro.vendor.use_data_netmgrd=true
- #   persist.vendor.radio.redir_party_num=1 \
- #   persist.vendor.radio.report_codec=1
-
-
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     DEVICE_PROVISIONED=1 \
@@ -222,6 +217,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.sensors.sta_detect=true \
     ro.vendor.sensors.mot_detect=true
 
+# Set system properties identifying the chipset
+ro.soc.manufacturer=QTI
+ro.soc.model=SDM660
+
 # Time
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.delta_time.enable=true
@@ -229,9 +228,3 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # WFD
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     persist.debug.wfd.enable=1
-
-# Set lmkd options
-PRODUCT_PRODUCT_PROPERTIES += \
-    ro.config.low_ram=false \
-    ro.lmk.log_stats=true \
-    ro.lmk.use_psi=false
