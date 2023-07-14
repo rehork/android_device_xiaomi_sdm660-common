@@ -341,7 +341,7 @@ function configure_zram_parameters() {
     # For 512MB Go device, size = 384MB, set same for Non-Go.
     # For 1GB Go device, size = 768MB, set same for Non-Go.
     # For 2GB Go device, size = 1536MB, set same for Non-Go.
-    # For >2GB Non-Go devices, size = 50% of RAM size. Limit the size to 4GB.
+    # For >2GB Non-Go devices, size = 50% of RAM size. Limit the size to 2GB.
     # And enable lz4 zram compression for Go targets.
 
     let RamSizeGB="( $MemTotal / 1048576 ) + 1"
@@ -353,8 +353,8 @@ function configure_zram_parameters() {
     fi
 
     # use MB avoid 32 bit overflow
-    if [ $zRamSizeMB -gt 4096 ]; then
-        let zRamSizeMB=4096
+    if [ $zRamSizeMB -gt 2048 ]; then
+        let zRamSizeMB=2048
     fi
 
     if [ "$low_ram" == "true" ]; then
@@ -382,28 +382,13 @@ function configure_zram_parameters() {
 }
 
 function configure_read_ahead_kb_values() {
-    MemTotalStr=`cat /proc/meminfo | grep MemTotal`
-    MemTotal=${MemTotalStr:16:8}
-
-    # Set 128 for <= 3GB &
-    # set 512 for >= 4GB targets.
-    if [ $MemTotal -le 3145728 ]; then
-        echo 128 > /sys/block/mmcblk0/bdi/read_ahead_kb
-        echo 128 > /sys/block/mmcblk0/queue/read_ahead_kb
-        echo 128 > /sys/block/mmcblk0rpmb/bdi/read_ahead_kb
-        echo 128 > /sys/block/mmcblk0rpmb/queue/read_ahead_kb
-        echo 128 > /sys/block/dm-0/queue/read_ahead_kb
-        echo 128 > /sys/block/dm-1/queue/read_ahead_kb
-        echo 128 > /sys/block/dm-2/queue/read_ahead_kb
-    else
-        echo 512 > /sys/block/mmcblk0/bdi/read_ahead_kb
-        echo 512 > /sys/block/mmcblk0/queue/read_ahead_kb
-        echo 512 > /sys/block/mmcblk0rpmb/bdi/read_ahead_kb
-        echo 512 > /sys/block/mmcblk0rpmb/queue/read_ahead_kb
-        echo 512 > /sys/block/dm-0/queue/read_ahead_kb
-        echo 512 > /sys/block/dm-1/queue/read_ahead_kb
-        echo 512 > /sys/block/dm-2/queue/read_ahead_kb
-    fi
+    echo 128 > /sys/block/mmcblk0/bdi/read_ahead_kb
+    echo 128 > /sys/block/mmcblk0/queue/read_ahead_kb
+    echo 128 > /sys/block/mmcblk0rpmb/bdi/read_ahead_kb
+    echo 128 > /sys/block/mmcblk0rpmb/queue/read_ahead_kb
+    echo 128 > /sys/block/dm-0/queue/read_ahead_kb
+    echo 128 > /sys/block/dm-1/queue/read_ahead_kb
+    echo 128 > /sys/block/dm-2/queue/read_ahead_kb
 }
 
 function disable_core_ctl() {
@@ -2368,10 +2353,6 @@ case "$target" in
         # to one of the CPU from the default IRQ affinity mask.
         echo f > /proc/irq/default_smp_affinity
 
-        echo 2 > /proc/irq/7/smp_affinity_list # msm_drm
-        #echo 0 > /proc/irq/377/smp_affinity_list # synaptics,s3320
-        echo 1 > /proc/irq/489/smp_affinity_list # kgsl-3d0
-
         if [ -f /sys/devices/soc0/soc_id ]; then
                 soc_id=`cat /sys/devices/soc0/soc_id`
         else
@@ -2411,14 +2392,14 @@ case "$target" in
             echo "schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
             echo 20000 > /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us
             echo 500 > /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us
-            echo 633600 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+#            echo 633600 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
             # online CPU4
             echo 1 > /sys/devices/system/cpu/cpu4/online
             # configure governor settings for big cluster
             echo "schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
             echo 20000 > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/down_rate_limit_us
             echo 500 > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/up_rate_limit_us
-            echo 1113600 > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+ #           echo 1113600 > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
 
             # bring all cores online
             echo 1 > /sys/devices/system/cpu/cpu0/online
@@ -2457,7 +2438,6 @@ case "$target" in
             do
                 echo "bw_hwmon" > $cpubw/governor
                 echo 50 > $cpubw/polling_interval
-                echo 762 > $cpubw/min_freq
                 echo "1525 3143 5859 7759 9887 10327 11863 13763" > $cpubw/bw_hwmon/mbps_zones
                 echo 4 > $cpubw/bw_hwmon/sample_ms
                 echo 85 > $cpubw/bw_hwmon/io_percent
@@ -2474,12 +2454,12 @@ case "$target" in
                 echo 1600 > $cpubw/bw_hwmon/idle_mbps
             done
 
-            for memlat in /sys/class/devfreq/*qcom,memlat-cpu*
-            do
-                echo "mem_latency" > $memlat/governor
-                echo 10 > $memlat/polling_interval
-                echo 400 > $memlat/mem_latency/ratio_ceil
-            done
+#            for memlat in /sys/class/devfreq/*qcom,memlat-cpu*
+#            do
+#                echo "mem_latency" > $memlat/governor
+#                echo 10 > $memlat/polling_interval
+#                echo 400 > $memlat/mem_latency/ratio_ceil
+#            done
             echo "cpufreq" > /sys/class/devfreq/soc:qcom,mincpubw/governor
         esac
 
