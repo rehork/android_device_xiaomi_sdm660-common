@@ -28,45 +28,28 @@
    IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <cstdlib>
+#include <fstream>
 #include <string.h>
 #include <sys/sysinfo.h>
 #include <unistd.h>
-#include <cstdlib>
-#include <fstream>
-#include <vector>
 
 #include <android-base/properties.h>
 #define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
 #include <sys/_system_properties.h>
 
-#include "property_service.h"
 #include "vendor_init.h"
+#include "property_service.h"
 
-using android::base::GetProperty;
-using std::string;
+char const *heapstartsize;
+char const *heapgrowthlimit;
+char const *heapsize;
+char const *heapminfree;
+char const *heapmaxfree;
+char const *heaptargetutilization;
 
-std::vector<std::string> ro_props_default_source_order = {
-        "", "odm.", "product.", "system.", "system_ext.", "vendor.",
-};
-
-char const* heapstartsize;
-char const* heapgrowthlimit;
-char const* heapsize;
-char const* heapminfree;
-char const* heapmaxfree;
-char const* heaptargetutilization;
-
-void property_override(char const prop[], char const value[], bool add = true) {
-    auto pi = (prop_info*)__system_property_find(prop);
-
-    if (pi != nullptr) {
-        __system_property_update(pi, value, strlen(value));
-    } else if (add) {
-        __system_property_add(prop, strlen(prop), value, strlen(value));
-    }
-}
-
-void set_dalvik_props() {
+void check_device()
+{
     struct sysinfo sys;
 
     sysinfo(&sys);
@@ -96,6 +79,22 @@ void set_dalvik_props() {
         heapminfree = "512k";
         heapmaxfree = "8m";
     }
+}
+
+void property_override(char const prop[], char const value[], bool add = true)
+{
+    auto pi = (prop_info *) __system_property_find(prop);
+
+    if (pi != nullptr) {
+        __system_property_update(pi, value, strlen(value));
+    } else if (add) {
+        __system_property_add(prop, strlen(prop), value, strlen(value));
+    }
+}
+
+void vendor_load_properties()
+{
+    check_device();
 
     property_override("dalvik.vm.heapstartsize", heapstartsize);
     property_override("dalvik.vm.heapgrowthlimit", heapgrowthlimit);
@@ -103,30 +102,4 @@ void set_dalvik_props() {
     property_override("dalvik.vm.heaptargetutilization", heaptargetutilization);
     property_override("dalvik.vm.heapminfree", heapminfree);
     property_override("dalvik.vm.heapmaxfree", heapmaxfree);
-}
-
-void set_model_props() {
-    const auto set_ro_product_prop = [](const std::string& source, const std::string& prop,
-                                        const std::string& value) {
-        auto prop_name = "ro.product." + source + prop;
-        property_override(prop_name.c_str(), value.c_str(), false);
-    };
-
-    string region = GetProperty("ro.boot.hwc", "");
-    string model;
-    if (region == "India") {
-        model = "Redmi Note 5 Pro";
-
-    } else {
-        model = "Redmi Note 5";
-    }
-
-    for (const auto& source : ro_props_default_source_order) {
-        set_ro_product_prop(source, "model", model);
-    }
-}
-
-void vendor_load_properties() {
-    set_dalvik_props();
-    set_model_props();
 }
