@@ -111,6 +111,10 @@ PRODUCT_PRODUCT_PROPERTIES += \
     ro.charger.disable_init_blank=true \
     ro.charger.enable_suspend=true
 
+# Radio
+PRODUCT_PRODUCT_PROPERTIES += \
+ro.telephony.block_binder_thread_on_incoming_calls=false
+
 # CNE
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     persist.vendor.cne.feature=1
@@ -149,12 +153,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.sf.high_fps_early_gl_phase_offset_ns=9000000 \
     debug.sf.phase_offset_threshold_for_next_vsync_ns=6100000
 
-# Disable vsync for cpu rendered apps
-debug.cpurend.vsync=false
-
 # FRP
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.frp.pst=/dev/block/bootdevice/by-name/frp
+
+
+# Fwk detect
+PRODUCT_PRODUCT_PROPERTIES += \
+ro.vendor.qti.va_aosp.support=1
 
 # IMS
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -171,11 +177,16 @@ PRODUCT_PRODUCT_PROPERTIES += \
 # Media
 PRODUCT_PROPERTY_OVERRIDES += \
     debug.stagefright.omx_default_rank=0 \
+    debug.stagefright.omx_default_rank.sw-audio=1 \
+    media.settings.xml=/vendor/etc/media_profiles_vendor.xml \
+    vendor.vidc.enc.disable.pq=true \
     media.stagefright.thumbnail.prefer_hw_codecs=true \
     ro.media.recorder-max-base-layer-fps=60 \
+    vendor.mm.enable.qcom_parser=16777215 \
     vendor.vidc.dec.enable.downscalar=1 \
     vendor.vidc.enc.disable_bframes=1 \
     vendor.vidc.enc.disable.pq=true
+
 
 # Netflix
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
@@ -197,7 +208,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.radio.mt_sms_ack=30 \
     persist.vendor.radio.rat_on=combine \
     persist.vendor.radio.sib16_support=1 \
-    ro.telephony.block_binder_thread_on_incoming_calls=false \
     ro.telephony.default_network=22,22 \
     ro.vendor.use_data_netmgrd=true
 
@@ -228,3 +238,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # WFD
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     persist.debug.wfd.enable=1
+
+# Zygote
+PRODUCT_PROPERTY_OVERRIDES += \
+zygote.critical_window.minute=10
