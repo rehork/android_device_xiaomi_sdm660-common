@@ -28,7 +28,7 @@
 #
 
 on init
-    write /dev/stune/foreground/schedtune.prefer_idle 1
+    write /dev/stune/foreground/schedtune.prefer_idle 0
     write /dev/stune/top-app/schedtune.boost 5
     write /dev/stune/top-app/schedtune.prefer_idle 1
 
@@ -57,7 +57,7 @@ on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
     mount_all /vendor/etc/fstab.qcom
-    swapon_all /vendor/etc/fstab.qcom
+#    swapon_all /vendor/etc/fstab.qcom
     chown root system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
     mkdir /mnt/vendor/persist/data 0700 system system
@@ -78,23 +78,24 @@ on post-fs
 on init
     write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
 
-on late-init
-    # Start services for bootanim
-    start surfaceflinger
-    start bootanim
-    start vendor.hwcomposer-2-3
-    start vendor.configstore-hal
-    start vendor.qti.hardware.display.allocator
 
 on post-fs-data
     mkdir /data/tombstones/modem 0771 system system
     mkdir /data/tombstones/lpass 0771 system system
     mkdir /data/tombstones/wcnss 0771 system system
     mkdir /data/tombstones/dsps 0771 system system
+    mkdir /data/vendor/misc/seemp 0700 system system
 
 on boot
     start rmt_storage
     start rfs_access
+
+    # Thermal
+    chmod 0664 /sys/class/thermal/thermal_message/sconfig
+    chown system system /sys/class/thermal/thermal_message/sconfig
+    chmod 0666 /sys/class/thermal/thermal_message/temp_state
+    chown system system /sys/class/thermal/thermal_message/temp_state
+
     write /dev/cpuset/top-app/cpus 0-7
     write /dev/cpuset/foreground/cpus 0-7
     write /dev/cpuset/foreground/boost/cpus 0-7
@@ -133,12 +134,16 @@ on boot
     write /sys/module/usb_f_qcrndis/parameters/rndis_dl_max_xfer_size 15916
     setprop sys.usb.configfs 1
 
+
+
+
     # Touchpanel
-    chown system system /sys/touchpanel/double_tap
     chmod 0664 /sys/touchpanel/capacitive_keys
-    chmod 0664 /sys/touchpanel/double_tap
     chmod 0664 /sys/touchpanel/reversed_keys
     write /sys/touchpanel/double_tap 1
+  #  chown system system /sys/touchpanel/double_tap
+   # chmod 0660 /sys/touchpanel/double_tap
+
 
 
 #Peripheral manager
@@ -227,6 +232,8 @@ service ppd /system/vendor/bin/mm-pp-dpps
 on property:sys.boot_completed=1
     # Enable PowerHAL hint processing
     setprop vendor.powerhal.init 1
+    # Stop bootanimation
+    stop bootanim
 
 on property:init.svc.surfaceflinger=stopped
     stop ppd
@@ -267,3 +274,8 @@ chmod 0666 /sys/class/power_supply/battery/charging_enabled
 chown system system /sys/class/power_supply/battery/input_suspend 
 chmod 0666 /sys/class/power_supply/battery/input_suspend
 #Huaqin add for control charge by zhangjingzhi at 20180129 end
+
+on property:sys.boot_completed=1
+    write /proc/sys/vm/page-cluster 0
+    write /proc/sys/vm/swappiness 30
+    swapon_all /vendor/etc/fstab.qcom

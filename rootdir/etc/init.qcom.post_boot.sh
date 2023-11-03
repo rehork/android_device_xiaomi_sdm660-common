@@ -2353,6 +2353,10 @@ case "$target" in
         # to one of the CPU from the default IRQ affinity mask.
         echo f > /proc/irq/default_smp_affinity
 
+        echo 2 > /proc/irq/7/smp_affinity_list # msm_drm
+        #echo 0 > /proc/irq/377/smp_affinity_list # synaptics,s3320
+        echo 1 > /proc/irq/489/smp_affinity_list # kgsl-3d0
+
         if [ -f /sys/devices/soc0/soc_id ]; then
                 soc_id=`cat /sys/devices/soc0/soc_id`
         else
@@ -2392,14 +2396,12 @@ case "$target" in
             echo "schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
             echo 20000 > /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us
             echo 500 > /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us
-#            echo 633600 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
             # online CPU4
             echo 1 > /sys/devices/system/cpu/cpu4/online
             # configure governor settings for big cluster
             echo "schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
             echo 20000 > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/down_rate_limit_us
             echo 500 > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/up_rate_limit_us
- #           echo 1113600 > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
 
             # bring all cores online
             echo 1 > /sys/devices/system/cpu/cpu0/online
@@ -4963,7 +4965,7 @@ case "$target" in
 
         # Enable input boost configuration
         echo "0:1324800" > /sys/module/cpu_boost/parameters/input_boost_freq
-        echo 140 > /sys/module/cpu_boost/parameters/input_boost_ms
+        echo 40 > /sys/module/cpu_boost/parameters/input_boost_ms
         # Enable bus-dcvs
         for cpubw in /sys/class/devfreq/*qcom,cpubw*
         do
