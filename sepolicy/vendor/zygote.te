@@ -1,1 +1,2 @@
 allow zygote unlabeled:file { write };
+get_prop(zygote, exported_camera_prop);

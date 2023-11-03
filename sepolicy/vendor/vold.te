@@ -1,2 +1,8 @@
 allow vold vendor_apex_file:file getattr;
 allow vold sysfs_mmc_host:file write;
+# For setting read_ahead_kb
+allow vold sysfs_mmc_host:file w_file_perms;
+allow vold sysfs_mmc_host:file { write };
+allow vold sysfs_mmc_host:file create_file_perms;
+allowxperm vold vold_device:blk_file ioctl 0x1271;
+allowxperm vold vold_device:blk_file ioctl BLKROGET;
