@@ -160,7 +160,10 @@ ro.surface_flinger.max_frame_buffer_acquired_buffers=3 \
 ro.surface_flinger.use_smart_90_for_video=true \
 ro.surface_flinger.protected_contents=true \
 ro.sf.blurs_are_expensive=1 \
-persist.sys.sf.disable_blurs=1
+	persist.sys.sf.disable_blurs=1 \
+	debug.sf.layer_caching_active_layer_timeout_ms=1000 \
+	ro.config.avoid_gfx_accel=true \
+	debug.sf.disable_client_composition_cache=1
 
 # DRM Service
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -211,6 +214,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     media.settings.xml=/vendor/etc/media_profiles_vendor.xml \
     vendor.vidc.enc.disable.pq=true \
     media.stagefright.thumbnail.prefer_hw_codecs=true \
+mm.enable.smoothstreaming=true \
+mm.enable.sec.smoothstreaming=true \
     ro.media.recorder-max-base-layer-fps=60 \
     vendor.mm.enable.qcom_parser=16777215 \
     vendor.vidc.dec.enable.downscalar=1 \
@@ -285,4 +290,4 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 
 # Zygote
 PRODUCT_PROPERTY_OVERRIDES += \
-zygote.critical_window.minute=3
+zygote.critical_window.minute=10
