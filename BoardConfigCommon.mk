@@ -37,12 +37,12 @@ BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 TARGET_KERNEL_SOURCE := kernel/xiaomi/whyred
-TARGET_KERNEL_CLANG_VERSION := proton
-TARGET_KERNEL_CLANG_PATH := $(shell pwd)/prebuilts/clang/host/linux-x86/clang-proton/
+#TARGET_KERNEL_CLANG_VERSION := proton
+#TARGET_KERNEL_CLANG_PATH := $(shell pwd)/prebuilts/clang/host/linux-x86/clang-proton/
 TARGET_KERNEL_CLANG_COMPILE := true
-TARGET_KERNEL_ADDITIONAL_FLAGS := \
-    HOSTCFLAGS="-fuse-ld=lld -Wno-unused-command-line-argument"
-#TARGET_KERNEL_CLANG_VERSION := r416183d
+#TARGET_KERNEL_ADDITIONAL_FLAGS := \
+#    HOSTCFLAGS="-fuse-ld=lld -Wno-unused-command-line-argument"
+TARGET_KERNEL_CLANG_VERSION := r416183d
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE := true
@@ -72,6 +72,9 @@ TARGET_USES_QTI_CAMERA_DEVICE := true
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
+
+# Compile libhwui in performance mode
+HWUI_COMPILE_FOR_PERF := true
 
 # Display
 BOARD_USES_ADRENO := true
@@ -141,10 +144,7 @@ BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 include device/qcom/sepolicy-legacy-um/SEPolicy.mk
 BOARD_VENDOR_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor
 PRODUCT_PRIVATE_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/private
-PRODUCT_PUBLIC_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/public
 
-# SurfaceFlinger
-TARGET_USE_AOSP_SURFACEFLINGER := true
 
 # Treble
 PRODUCT_FULL_TREBLE_OVERRIDE := true

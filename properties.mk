@@ -1,3 +1,11 @@
+# App launch prefetching (IORapd)
+PRODUCT_PROPERTY_OVERRIDES += \
+ro.iorapd.enable=false \
+iorapd.perfetto.enable=false \
+iorapd.readahead.enable=false \
+persist.device_config.runtime_native_boot.iorap_readahead_enable=false
+
+
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
     af.fast_track_multiplier=1 \
@@ -100,6 +108,11 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     persist.vendor.qcom.bluetooth.soc=cherokee \
     vendor.bluetooth.soc=cherokee
 
+# Blur
+PRODUCT_PROPERTY_OVERRIDES += \
+ro.surface_flinger.supports_background_blur=0 \
+ro.launcher.blur.appLaunch=0
+
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.camera.preview.ubwc=0 \
@@ -116,10 +129,14 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 debug.media.codec2=2
 
-
-# Radio
-PRODUCT_PRODUCT_PROPERTIES += \
-ro.telephony.block_binder_thread_on_incoming_calls=false
+# Dirac
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+ro.audio.soundfx.dirac=true  \
+persist.audio.dirac.speaker=true  \
+persist.dirac.acs.controller=qem \
+persist.dirac.acs.ignore_error=1  \
+persist.dirac.acs.storeSettings=1 \
+audio.dirac.logging=0
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 persist.sys.fflag.override.settings_provider_model=false
@@ -130,40 +147,18 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
-    debug.hwui.renderer=skiavk \
-    debug.sf.enable_gl_backpressure=1 \
-    debug.sf.hw=1 \
-    debug.sf.latch_unsignaled=1 \
-    ro.hardware.egl=adreno \
-    ro.hardware.vulkan=sdm660\
-    debug.sf.disable_backpressure=1 \
-    ro.opengles.version=196610 \
-    ro.vendor.display.cabl=0 \
+ debug.sf.enable_hwc_vds=0 \
+debug.sdm.support_writeback=0 \
     vendor.display.disable_skip_validate=1 \
-    vendor.display.enable_default_color_mode=0 \
-    vendor.gralloc.enable_fb_ubwc=1 \
-    persist.hwc.ptor.enable=true \
-    persist.sys.sf.disable_blurs=true \
-debug.sf.early_phase_offset_ns=1500000 \
-debug.sf.early_app_phase_offset_ns=1500000 \
-debug.sf.early_gl_phase_offset_ns=3000000 \
-debug.sf.early_gl_app_phase_offset_ns=15000000 \
+    vendor.display.enable_default_color_mode=0 
+
+PRODUCT_PROPERTY_OVERRIDES += \
 ro.surface_flinger.use_color_management=true \
-ro.surface_flinger.set_idle_timer_ms=80 \
-ro.surface_flinger.set_touch_timer_ms=200 \
-ro.surface_flinger.set_display_power_timer_ms=1000 \
-ro.surface_flinger.support_kernel_idle_timer=true \
-ro.surface_flinger.supports_background_blur=1 \
-ro.surface_flinger.use_frame_rate_api=true \
-ro.surface_flinger.force_hwc_copy_for_virtual_displays=true \
-ro.surface_flinger.max_frame_buffer_acquired_buffers=3 \
-ro.surface_flinger.use_smart_90_for_video=true \
+ro.surface_flinger.has_wide_color_display=true \
 ro.surface_flinger.protected_contents=true \
+debug.performance.tuning=1 \
 ro.sf.blurs_are_expensive=1 \
-	persist.sys.sf.disable_blurs=1 \
-	debug.sf.layer_caching_active_layer_timeout_ms=1000 \
-	ro.config.avoid_gfx_accel=true \
-	debug.sf.disable_client_composition_cache=1
+	persist.sys.sf.disable_blurs=1 
 
 # DRM Service
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -173,18 +168,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # The default sf phase offset is set to 6ms, to avoid it be included into next
 # vsync threshold, set high fps early sf and next vsync threshold phase offset
 # to 6.1ms, which is bigger than all sf phase offsets in normal frame rate.
-#PRODUCT_PROPERTY_OVERRIDES += \
-#    debug.sf.high_fps_early_phase_offset_ns=6100000 \
-#    debug.sf.high_fps_early_gl_phase_offset_ns=9000000 \
-#    debug.sf.phase_offset_threshold_for_next_vsync_ns=6100000
-
-
-# Additional props
 PRODUCT_PROPERTY_OVERRIDES += \
-ro.vendor.qti.cgroup_follow.enable=true \
-persist.vendor.qti.inputopts.enable=true \
-persist.vendor.qti.inputopts.movetouchslop=0.6 \
-ro.qcom.adreno.qgl.ShaderStorageImageExtendedFormats=0
+    debug.sf.high_fps_early_phase_offset_ns=6100000 \
+    debug.sf.high_fps_early_gl_phase_offset_ns=9000000 \
+    debug.sf.phase_offset_threshold_for_next_vsync_ns=6100000
 
 # FRP
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -214,6 +201,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
     media.settings.xml=/vendor/etc/media_profiles_vendor.xml \
     vendor.vidc.enc.disable.pq=true \
     media.stagefright.thumbnail.prefer_hw_codecs=true \
+media.stagefright.enable-player=true \
+media.stagefright.enable-http=true \
+media.stagefright.enable-aac=true \
+media.stagefright.enable-qcp=true \
+media.stagefright.enable-scan=true \
 mm.enable.smoothstreaming=true \
 mm.enable.sec.smoothstreaming=true \
     ro.media.recorder-max-base-layer-fps=60 \
@@ -221,6 +213,10 @@ mm.enable.sec.smoothstreaming=true \
     vendor.vidc.dec.enable.downscalar=1 \
     vendor.vidc.enc.disable_bframes=1 \
     vendor.vidc.enc.disable.pq=true
+
+# Logs
+PRODUCT_PROPERTY_OVERRIDES += \
+persist.log.tag.OpenGLRenderer=S
 
 
 # Netflix
@@ -230,6 +226,7 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 # Perf
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.extension_library=libqti-perfd-client.so
+
 
 # Radio
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -251,6 +248,14 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     persist.sys.fflag.override.settings_network_and_internet_v2=true \
     ril.subscription.types=NV,RUIM \
     telephony.lteOnCdmaDevice=1
+
+PRODUCT_PRODUCT_PROPERTIES += \
+ro.telephony.block_binder_thread_on_incoming_calls=false
+
+
+# RmNet
+PRODUCT_PROPERTY_OVERRIDES += \
+persist.data.df.dev_name=rmnet_usb0
 
 # Sensor
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -282,7 +287,17 @@ persist.service.pcsync.enable=0
 
 # Time
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.vendor.delta_time.enable=true
+persist.vendor.delta_time.enable=true \
+persist.timed.enable=true
+
+
+# Video call
+PRODUCT_PROPERTY_OVERRIDES += \
+persist.vendor.qti.telephony.vt_cam_interface=1
+
+# Watchdog
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+ro.hw_timeout_multiplier=3
 
 # WFD
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \

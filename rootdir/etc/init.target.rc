@@ -53,11 +53,14 @@ on init
     chmod 0664 /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/hyst_trigger_count
     chmod 0664 /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/hist_memory
 
+ # Change permissions for /dev/diag
+     chmod 0666 /dev/diag
+
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
     mount_all /vendor/etc/fstab.qcom
-#    swapon_all /vendor/etc/fstab.qcom
+    swapon_all /vendor/etc/fstab.qcom
     chown root system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
     mkdir /mnt/vendor/persist/data 0700 system system
@@ -87,10 +90,10 @@ on post-fs-data
     mkdir /data/vendor/misc/seemp 0700 system system
 
 on boot
-    start rmt_storage
+    start vendor.rmt_storage
     start rfs_access
 
-    # Thermal
+  # Thermal
     chmod 0664 /sys/class/thermal/thermal_message/sconfig
     chown system system /sys/class/thermal/thermal_message/sconfig
     chmod 0666 /sys/class/thermal/thermal_message/temp_state
@@ -138,22 +141,20 @@ on boot
 
 
     # Touchpanel
-    chmod 0664 /sys/touchpanel/capacitive_keys
-    chmod 0664 /sys/touchpanel/reversed_keys
-    write /sys/touchpanel/double_tap 1
+     write /sys/touchpanel/double_tap 1
   #  chown system system /sys/touchpanel/double_tap
    # chmod 0660 /sys/touchpanel/double_tap
 
 
 
 #Peripheral manager
-service vendor.per_mgr /system/vendor/bin/pm-service
+service vendor.per_mgr /vendor/bin/pm-service
     class core
     user system
     group system
     ioprio rt 4
 
-service vendor.per_proxy /system/vendor/bin/pm-proxy
+service vendor.per_proxy /vendor/bin/pm-proxy
     class core
     user system
     group system
@@ -181,7 +182,7 @@ service vendor.qseecomd /vendor/bin/qseecomd
    user root
    group root
 
-service thermal-engine /system/vendor/bin/thermal-engine
+service vendor.thermal-engine /vendor/bin/thermal-engine
    class main
    user root
    socket thermal-send-client stream 0666 system system
@@ -219,6 +220,12 @@ service vendor.cdsprpcd /vendor/bin/cdsprpcd
 #    chown system drmrpc /sys/devices/f9966000.i2c/i2c-1/1-0020/secure_touch_enable
 #    chown system drmrpc /sys/devices/f9966000.i2c/i2c-1/1-0020/secure_touch
 
+service energy-awareness /system/vendor/bin/energy-awareness
+    class main
+    user system
+    group system
+    oneshot
+
 service vendor.pd_mapper /system/vendor/bin/pd-mapper
      class core
 
@@ -254,7 +261,7 @@ on property:init.svc.zygote=restarting
     stop ppd
 
 on charger
-    start qcom-post-boot
+    start vendor.qcom-post-boot
     start vendor.hvdcp_opti
     setprop sys.usb.configfs 1
     start vendor.power_off_alarm
@@ -274,8 +281,3 @@ chmod 0666 /sys/class/power_supply/battery/charging_enabled
 chown system system /sys/class/power_supply/battery/input_suspend 
 chmod 0666 /sys/class/power_supply/battery/input_suspend
 #Huaqin add for control charge by zhangjingzhi at 20180129 end
-
-on property:sys.boot_completed=1
-    write /proc/sys/vm/page-cluster 0
-    write /proc/sys/vm/swappiness 30
-    swapon_all /vendor/etc/fstab.qcom

@@ -1,4 +1,5 @@
 allow system_server app_zygote:process { getpgid };
 dontaudit system_server sysfs:file { read open getattr };
 allow system_server unlabeled:file { write };
-
+allow system_server app_zygote:process getpgid;
+allow system_server cache_recovery_last_install:file unlink;
