@@ -31,6 +31,8 @@
         <transport>hwbinder</transport>
     	<fqname>@2.0::ISoundTriggerHw/default</fqname>
         <fqname>@2.1::ISoundTriggerHw/default</fqname>
+ 	<fqname>@2.2::ISoundTriggerHw/default</fqname>
+	<fqname>@2.3::ISoundTriggerHw/default</fqname>
     </hal>
     <hal format="hidl">
         <name>android.hardware.media.omx</name>
@@ -59,10 +61,12 @@
         <transport>hwbinder</transport>
         <fqname>@2.0::IAllocator/default</fqname>
     </hal>
-<hal format="hidl">
+    <hal format="hidl">
         <name>android.hardware.graphics.mapper</name>
         <transport arch="32+64">passthrough</transport>
         <fqname>@2.1::IMapper/default</fqname>
+        <fqname>@3.0::IMapper/default</fqname>
+        <fqname>@4.0::IMapper/default</fqname>
     </hal>
     <hal format="hidl">
         <name>android.hardware.graphics.composer</name>
@@ -658,10 +662,5 @@
             <name>IPictureAdjustment</name>
             <instance>default</instance>
         </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.xiaomi.hardware.mlipay</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.1::IMlipayService/default</fqname>
     </hal>
 </manifest>
