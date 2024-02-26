@@ -16,7 +16,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.audio.fluence.speaker=true \
     vendor.audio.tunnel.encode=false \
     persist.vendor.audio.ras.enabled=false \
-    vendor.audio.offload.buffer.size.kb=64 \
+    vendor.audio.offload.buffer.size.kb=256\
     audio.offload.min.duration.secs=30 \
     audio.offload.video=true \
     vendor.audio.offload.track.enable=true \
@@ -147,10 +147,17 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
+debug.sf.hw=1 \
+debug.sf.latch_unsignaled=1 \
  debug.sf.enable_hwc_vds=0 \
 debug.sdm.support_writeback=0 \
     vendor.display.disable_skip_validate=1 \
-    vendor.display.enable_default_color_mode=0 
+    vendor.display.enable_default_color_mode=0 \
+vendor.display.use_smooth_motion=1 \
+ro.hardware.egl=adreno \
+vendor.display.disable_rotator_downscale=1 \
+ro.hardware.vulkan=adreno \
+ro.opengles.version=196610
 
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.surface_flinger.use_color_management=true \
@@ -298,6 +305,11 @@ persist.vendor.qti.telephony.vt_cam_interface=1
 # Watchdog
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 ro.hw_timeout_multiplier=3
+
+# USB
+PRODUCT_PROPERTY_OVERRIDES += \
+vendor.usb.use_gadget_hal=0
+
 
 # WFD
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \

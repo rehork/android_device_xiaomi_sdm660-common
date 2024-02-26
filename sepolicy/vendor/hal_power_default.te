@@ -30,8 +30,8 @@ r_dir_file(hal_power_default, sysfs_touchpanel)
 
 allow hal_power_default input_device:dir r_dir_perms;
 allow hal_power_default input_device:chr_file rw_file_perms;
-allow hal_power_default proc_tp_gesture:dir search;
-allow hal_power_default proc_tp_gesture:file rw_file_perms;
+#allow hal_power_default proc_tp_gesture:dir search;
+#allow hal_power_default proc_tp_gesture:file rw_file_perms;
 
 r_dir_file(hal_power_default, input_device)
 
@@ -67,3 +67,5 @@ allow hal_power_default sysfs_graphics:file r_file_perms;
 
 allow hal_power_default sysfs_rpm:file r_file_perms;
 allow hal_power_default sysfs_system_sleep_stats:file r_file_perms;
+
+allow hal_power_default dt2w_ctrl:file rw_file_perms;

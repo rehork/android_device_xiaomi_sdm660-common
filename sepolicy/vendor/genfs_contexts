@@ -46,6 +46,9 @@ genfscon sysfs /devices/platform/soc/soc:qcom,mincpubw          u:object_r:sysfs
 # Touchpanel
 #genfscon sysfs /touchpanel                                      u:object_r:sysfs_touchpanel:s0
 
+# Kmsg
+genfscon proc /last_kmsg                                                                                                                                                                                                       u:object_r:proc_last_kmsg:s0
+
 # Wakeup
 genfscon sysfs /devices/soc/ca0c000.qcom,cci/ca0c000.qcom,cci:qcom,camera@0/video4linux/video3/wakeup u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/soc/ca0c000.qcom,cci/ca0c000.qcom,cci:qcom,camera@1/video4linux/video4/wakeup u:object_r:sysfs_wakeup:s0
@@ -54,4 +57,4 @@ genfscon sysfs /devices/soc/soc:fpc1020/wakeup u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/soc/soc:hall_switch/wakeup u:object_r:sysfs_wakeup:s0
 
 # DT2W
-genfscon proc /tp_gesture                                                      u:object_r:proc_tp_gesture:s0
+genfscon proc /sys/dev/dt2w u:object_r:dt2w_ctrl:s0

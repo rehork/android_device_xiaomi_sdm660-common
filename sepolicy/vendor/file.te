@@ -11,11 +11,10 @@ type thermal_data_file, file_type, data_file_type;
 # FPS Info
 type sysfs_fps, sysfs_type, fs_type;
 
-#DT2W
-#type proc_tpd_gesture, fs_type, proc_type;
-
 # DT2W
-type proc_tp_gesture, fs_type, proc_type;
+type dt2w_ctrl, fs_type, proc_type;
 
 # cache
 type cache_recovery_last_install ,fs_type;
+# KMSG
+type proc_last_kmsg, fs_type, proc_type;

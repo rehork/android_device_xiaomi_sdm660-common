@@ -67,6 +67,7 @@ RELAX_USES_LIBRARY_CHECK := true
 BUILD_BROKEN_ENFORCE_SYSPROP_OWNER := true
 
 # Camera
+MALLOC_SVELTE_FOR_LIBC32 := true
 TARGET_USES_QTI_CAMERA_DEVICE := true
 
 # Charger
@@ -88,8 +89,7 @@ OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
 TARGET_ENABLE_MEDIADRM_64 := true
 
 # DT2W
-#TARGET_TAP_TO_WAKE_NODE := "/proc/tp_gesture"
-#TARGET_TAP_TO_WAKE_NODE := "/sys/touchpanel/double_tap"
+TARGET_TAP_TO_WAKE_NODE := "/proc/sys/dev/dt2w"
 
 # FM
 ifeq ($(BOARD_HAVE_QCOM_FM),true)
