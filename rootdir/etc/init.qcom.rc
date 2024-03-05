@@ -191,6 +191,9 @@ on boot
     # Allow access for CCID command/response timeout configuration
     chown system system /sys/module/ccid_bridge/parameters/bulk_msg_timeout
 
+   # bond0 used by FST Manager
+    chown wifi wifi /sys/class/net/bond0/bonding/queue_id
+
     # Allow access to emmc rawdump block partition and dload sysfs node
     #chown root system /dev/block/bootdevice/by-name/rawdump
     #chmod 0660 /dev/block/bootdevice/by-name/rawdump
@@ -246,6 +249,9 @@ on post-fs-data
 
     # Change lm related dirs
     mkdir /data/vendor/lm 0700 root root
+
+    # Create directory used by powermodule
+    mkdir /data/vendor/pwr 0700 root root
 
     # Create directory used by media clients
     mkdir /data/vendor/media 0770 mediacodec media
@@ -486,7 +492,7 @@ service vendor.qrtr-ns /vendor/bin/qrtr-ns -f
     group vendor_qrtr
     capabilities NET_BIND_SERVICE
 
-service vendor.irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
+service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class core
     user root
     oneshot
@@ -533,13 +539,13 @@ service vendor.loc_launcher /system/vendor/bin/loc_launcher
 #     insmod /system/lib/modules/qce.ko
 #     insmod /system/lib/modules/qcedev.ko
 
-service vendor.qcom-sh /vendor/bin/init.qcom.sh
+service qcom-sh /vendor/bin/init.qcom.sh
     class late_start
     user root
     group root system radio
     oneshot
 
-service vendor.qcom-post-boot /vendor/bin/init.qcom.post_boot.sh
+service qcom-post-boot /vendor/bin/init.qcom.post_boot.sh
     class late_start
     user root
     group root system wakelock graphics
@@ -547,7 +553,7 @@ service vendor.qcom-post-boot /vendor/bin/init.qcom.post_boot.sh
     oneshot
 
 on property:sys.boot_completed=1
-    start vendor.qcom-post-boot
+    start qcom-post-boot
 
 on property:ro.vendor.ril.mbn_copy_completed=1
     write /data/vendor/radio/copy_complete 1
@@ -575,7 +581,7 @@ service vendor.ril-daemon3 /vendor/bin/hw/rild -c 3
     group radio cache inet misc audio sdcard_r sdcard_rw diag oem_2901 log
     capabilities BLOCK_SUSPEND NET_ADMIN NET_RAW
 
-service vendor.charger /system/bin/charger
+service charger /system/bin/charger
     class charger
     user system
     group system graphics input
@@ -583,10 +589,11 @@ service vendor.charger /system/bin/charger
     seclabel u:r:charger:s0
 
 service vendor.msm_irqbalance /vendor/bin/msm_irqbalance -f /system/vendor/etc/msm_irqbalance.conf
+    socket msm_irqbalance seqpacket 660 root system
     class core
     user root
     group root
-    disabled
+    task_profiles ServiceCapacityLow
 
 service vendor.msm_irqbl_sdm630 /vendor/bin/msm_irqbalance -f /system/vendor/etc/msm_irqbalance_sdm630.conf
     class core
@@ -596,12 +603,27 @@ service vendor.msm_irqbl_sdm630 /vendor/bin/msm_irqbalance -f /system/vendor/etc
 
 on charger
     setprop persist.sys.usb.config mass_storage
-    start vendor.qcom-post-boot
-    start health-hal-2-1
+    start qcom-post-boot
+    start vendor.health-hal-2-1
     start vendor.power_off_alarm
 
 #on property:vendor.display.lcd_density=*
 #    setprop ro.sf.lcd_density ${vendor.display.lcd_density}
+
+#add poweroffhandler
+service poweroffhandler /system/vendor/bin/poweroffhandler
+    class core
+    user media
+    group graphics audio
+    disabled
+    oneshot
+
+service time_daemon /vendor/bin/time_daemon
+    class main
+    user system
+    group system
+    capabilities SYS_TIME
+
 
 # Set vendor-ril lib path based on Meta version
 on property:vendor.rild.libpath=*
@@ -610,6 +632,11 @@ on property:vendor.rild.libpath=*
 on property:ro.vendor.radio.noril=*
     setprop ro.radio.noril ${ro.vendor.radio.noril}
 
+service vendor.power_off_alarm /vendor/bin/power_off_alarm
+    class core
+    group system
+    disabled
+    oneshot
 
 service bugreport /system/bin/dumpstate -d -p -B -z -o /data/user_de/0/com.android.shell/files/bugreports/bugreport
     class main

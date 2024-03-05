@@ -28,11 +28,12 @@
 #
 
 on init
+# Alarm
+    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
+
     write /dev/stune/foreground/schedtune.prefer_idle 0
     write /dev/stune/top-app/schedtune.boost 5
     write /dev/stune/top-app/schedtune.prefer_idle 1
-
-    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
 
     # Setup permission for Power HAL
     chown system system /dev/stune/top-app/schedtune.boost
@@ -79,8 +80,6 @@ on post-fs
     start vendor.qseecomd
     wait_for_prop vendor.sys.listeners.registered true
     write /dev/ipa 1
-
-
 
 on post-fs-data
     mkdir /data/tombstones/modem 0771 system system
@@ -134,22 +133,21 @@ on boot
     setprop vendor.usb.rmnet.inst.name "rmnet"
     setprop vendor.usb.dpl.inst.name "dpl"
     setprop vendor.usb.qdss.inst.name "qdss"
-    write /sys/module/usb_f_qcrndis/parameters/rndis_dl_max_xfer_size 15916
     setprop sys.usb.configfs 1
+    write /sys/module/usb_f_qcrndis/parameters/rndis_dl_max_xfer_size 15916
 
-# Touchpanel
-#    write /sys/touchpanel/double_tap 1
-#   chown system system /sys/touchpanel/double_tap
-#    chmod 0660 /sys/touchpanel/double_tap
+    # Touchpanel
+    chown system system /sys/touchpanel/double_tap
+    chmod 0664 /sys/touchpanel/double_tap
 
 #Peripheral manager
-service vendor.per_mgr /vendor/bin/pm-service
+service vendor.per_mgr /system/vendor/bin/pm-service
     class core
     user system
     group system
     ioprio rt 4
 
-service vendor.per_proxy /vendor/bin/pm-proxy
+service vendor.per_proxy /system/vendor/bin/pm-proxy
     class core
     user system
     group system
@@ -177,7 +175,7 @@ service vendor.qseecomd /vendor/bin/qseecomd
    user root
    group root
 
-service vendor.thermal-engine /vendor/bin/thermal-engine
+service thermal-engine /system/vendor/bin/thermal-engine
    class main
    user root
    socket thermal-send-client stream 0666 system system
@@ -256,7 +254,7 @@ on property:init.svc.zygote=restarting
     stop ppd
 
 on charger
-    start vendor.qcom-post-boot
+    start qcom-post-boot
     start vendor.hvdcp_opti
     setprop sys.usb.configfs 1
     start vendor.power_off_alarm

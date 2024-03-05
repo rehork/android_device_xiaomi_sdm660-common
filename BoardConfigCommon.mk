@@ -32,6 +32,7 @@ TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a73
 # Kernel
 BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 androidboot.console=ttyMSM0 earlycon=msm_serial_dm,0xc170000 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 sched_enable_hmp=1 sched_enable_power_aware=1 service_locator.enable=1 swiotlb=1 androidboot.configfs=true androidboot.usbcontroller=a800000.dwc3
 BOARD_KERNEL_CMDLINE += loop.max_part=7
+BOARD_KERNEL_CMDLINE += printk.devkmsg=on
 BOARD_KERNEL_CMDLINE += usbcore.autosuspend=7
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
@@ -40,9 +41,9 @@ TARGET_KERNEL_SOURCE := kernel/xiaomi/whyred
 #TARGET_KERNEL_CLANG_VERSION := proton
 #TARGET_KERNEL_CLANG_PATH := $(shell pwd)/prebuilts/clang/host/linux-x86/clang-proton/
 TARGET_KERNEL_CLANG_COMPILE := true
-#TARGET_KERNEL_ADDITIONAL_FLAGS := \
-#    HOSTCFLAGS="-fuse-ld=lld -Wno-unused-command-line-argument"
-TARGET_KERNEL_CLANG_VERSION := r416183d
+TARGET_KERNEL_ADDITIONAL_FLAGS := \
+    HOSTCFLAGS="-fuse-ld=lld -Wno-unused-command-line-argument"
+#TARGET_KERNEL_CLANG_VERSION := r416183d
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE := true
@@ -81,7 +82,10 @@ HWUI_COMPILE_FOR_PERF := true
 BOARD_USES_ADRENO := true
 TARGET_USES_HWC2 := true
 TARGET_USES_GRALLOC1 := true
+TARGET_USES_GRALLOC4 := true
 TARGET_USES_ION := true
+TARGET_DISPLAY_USE_SMOOTH_MOTION := true
+NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 
 OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
 
@@ -89,7 +93,7 @@ OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
 TARGET_ENABLE_MEDIADRM_64 := true
 
 # DT2W
-TARGET_TAP_TO_WAKE_NODE := "/proc/sys/dev/dt2w"
+TARGET_TAP_TO_WAKE_NODE := "/sys/touchpanel/double_tap"
 
 # FM
 ifeq ($(BOARD_HAVE_QCOM_FM),true)
@@ -105,6 +109,7 @@ LOC_HIDL_VERSION := 3.0
 DEVICE_FRAMEWORK_MANIFEST_FILE := $(COMMON_PATH)/configs/manifests/framework_manifest.xml
 DEVICE_MANIFEST_FILE := $(COMMON_PATH)/configs/manifests/manifest.xml
 DEVICE_MATRIX_FILE := $(COMMON_PATH)/configs/manifests/compatibility_matrix.xml
+ODM_MANIFEST_FILES := $(COMMON_PATH)/configs/manifests/manifest_odm.xml
 
 # Init
 TARGET_INIT_VENDOR_LIB := //$(COMMON_PATH):libinit_sdm660
@@ -153,15 +158,17 @@ BOARD_VNDK_VERSION := current
 
 
 # Wifi
-BOARD_HAS_QCOM_WLAN := true
+#BOARD_HAS_QCOM_WLAN := true
 BOARD_WLAN_DEVICE := qcwcn
 BOARD_HOSTAPD_DRIVER := NL80211
 BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
-WIFI_DRIVER_FW_PATH_AP := "ap"
-WIFI_DRIVER_FW_PATH_STA := "sta"
-WIFI_DRIVER_FW_PATH_P2P := "p2p"
+WIFI_DRIVER_DEFAULT := qca_cld3
+WIFI_DRIVER_STATE_CTRL_PARAM := "/dev/wlan"
+WIFI_DRIVER_STATE_OFF := "OFF"
+WIFI_DRIVER_STATE_ON := "ON"
+QC_WIFI_HIDL_FEATURE_DUAL_AP := true
 WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
 WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X

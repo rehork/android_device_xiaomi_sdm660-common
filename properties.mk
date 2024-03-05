@@ -122,8 +122,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Charger
 PRODUCT_PRODUCT_PROPERTIES += \
-    ro.charger.disable_init_blank=true \
-    ro.charger.enable_suspend=true
+ro.charger.disable_init_blank=true \
+ro.charger.enable_suspend=true
 
 # Codec2 switch
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -143,17 +143,18 @@ persist.sys.fflag.override.settings_provider_model=false
 
 # CNE
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-    persist.vendor.cne.feature=1
+persist.vendor.cne.feature=1
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
 debug.sf.hw=1 \
-debug.sf.latch_unsignaled=1 \
- debug.sf.enable_hwc_vds=0 \
+debug.sf.auto_latch_unsignaled=0 \
+debug.sf.enable_hwc_vds=0 \
 debug.sdm.support_writeback=0 \
     vendor.display.disable_skip_validate=1 \
     vendor.display.enable_default_color_mode=0 \
 vendor.display.use_smooth_motion=1 \
+vendor.gralloc.enable_fb_ubwc=1 \
 ro.hardware.egl=adreno \
 vendor.display.disable_rotator_downscale=1 \
 ro.hardware.vulkan=adreno \
@@ -163,14 +164,18 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.surface_flinger.use_color_management=true \
 ro.surface_flinger.has_wide_color_display=true \
 ro.surface_flinger.protected_contents=true \
+ro.surface_flinger.vsync_event_phase_offset_ns=2000000 \
+ro.surface_flinger.vsync_sf_event_phase_offset_ns=6000000 \
+ro.surface_flinger.force_hwc_copy_for_virtual_displays=true \
+ro.surface_flinger.max_virtual_display_dimension=4096 \
 debug.performance.tuning=1 \
 ro.sf.blurs_are_expensive=1 \
 	persist.sys.sf.disable_blurs=1 
 
 # DRM Service
 PRODUCT_PROPERTY_OVERRIDES += \
-	drm.service.enabled=true \
-	media.mediadrmservice.enable=true
+drm.service.enabled=true \
+media.mediadrmservice.enable=true
 
 # The default sf phase offset is set to 6ms, to avoid it be included into next
 # vsync threshold, set high fps early sf and next vsync threshold phase offset
@@ -182,7 +187,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # FRP
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.frp.pst=/dev/block/bootdevice/by-name/frp
+ro.frp.pst=/dev/block/bootdevice/by-name/frp
 
 
 # Fwk detect
@@ -194,6 +199,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.dbg.volte_avail_ovr=1 \
     persist.dbg.vt_avail_ovr=1  \
     persist.dbg.wfc_avail_ovr=1
+
+
+# Logs
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+persist.log.tag.OpenGLRenderer=S
 
 # LMKD
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -228,11 +238,15 @@ persist.log.tag.OpenGLRenderer=S
 
 # Netflix
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-    ro.netflix.bsp_rev=Q660-13149-1
+ro.netflix.bsp_rev=Q660-13149-1
+
+# ODM
+PRODUCT_ODM_PROPERTIES += \
+ro.vendor.qti.va_odm.support=1
 
 # Perf
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.extension_library=libqti-perfd-client.so
+ro.vendor.extension_library=libqti-perfd-client.so
 
 
 # Radio
@@ -253,6 +267,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     DEVICE_PROVISIONED=1 \
     persist.sys.fflag.override.settings_network_and_internet_v2=true \
+    ro.telephony.handle_audio_direction_changes_between_call_state_changes=false \
     ril.subscription.types=NV,RUIM \
     telephony.lteOnCdmaDevice=1
 
