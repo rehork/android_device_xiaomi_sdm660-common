@@ -141,13 +141,13 @@ on boot
     chmod 0664 /sys/touchpanel/double_tap
 
 #Peripheral manager
-service vendor.per_mgr /system/vendor/bin/pm-service
+service vendor.per_mgr /vendor/bin/pm-service
     class core
     user system
     group system
     ioprio rt 4
 
-service vendor.per_proxy /system/vendor/bin/pm-proxy
+service vendor.per_proxy /vendor/bin/pm-proxy
     class core
     user system
     group system
@@ -261,7 +261,7 @@ on charger
     chown system system /sys/class/leds/red/brightness
     write /sys/class/leds/red/brightness 255
 
-service vendor.hvdcp_opti /system/vendor/bin/hvdcp_opti
+service vendor.hvdcp_opti /vendor/bin/hvdcp_opti
      class main
      user root
      group system wakelock
