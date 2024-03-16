@@ -110,7 +110,7 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 
 # Blur
 PRODUCT_PROPERTY_OVERRIDES += \
-ro.surface_flinger.supports_background_blur=0 \
+ro.surface_flinger.supports_background_blur=false \
 ro.launcher.blur.appLaunch=0
 
 # Camera
@@ -147,12 +147,18 @@ persist.vendor.cne.feature=1
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
+debug.sf.early_phase_offset_ns=500000 \
+debug.sf.early_app_phase_offset_ns=500000 \
+debug.sf.early_gl_app_phase_offset_ns=15000000 \
+debug.sf.early_gl_phase_offset_ns=3000000 \
 debug.sf.hw=1 \
+debug.sf.enable_gl_backpressure=1 \
+debug.sf.disable_backpressure=1 \
+debug.sf.latch_unsignaled=1 \
 debug.sf.auto_latch_unsignaled=0 \
-debug.sf.enable_hwc_vds=0 \
 debug.sdm.support_writeback=0 \
-    vendor.display.disable_skip_validate=1 \
-    vendor.display.enable_default_color_mode=0 \
+vendor.display.disable_skip_validate=1 \
+vendor.display.enable_default_color_mode=0 \
 vendor.display.use_smooth_motion=1 \
 vendor.gralloc.enable_fb_ubwc=1 \
 ro.hardware.egl=adreno \
