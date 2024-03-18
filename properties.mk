@@ -88,7 +88,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.media_vol_steps=25 \
-    ro.config.vc_call_vol_steps=11 \
+    ro.config.vc_call_vol_steps=20 \
     vendor.audio.adm.buffering.ms=6
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
@@ -176,7 +176,7 @@ ro.surface_flinger.force_hwc_copy_for_virtual_displays=true \
 ro.surface_flinger.max_virtual_display_dimension=4096 \
 debug.performance.tuning=1 \
 ro.sf.blurs_are_expensive=1 \
-	persist.sys.sf.disable_blurs=1 
+persist.sys.sf.disable_blurs=1 
 
 # DRM Service
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -213,17 +213,17 @@ persist.log.tag.OpenGLRenderer=S
 
 # LMKD
 PRODUCT_PRODUCT_PROPERTIES += \
-    ro.config.low_ram=false \
-    ro.lmk.log_stats=true \
-    ro.lmk.use_psi=false
+ro.config.low_ram=false \
+ro.lmk.log_stats=true \
+ro.lmk.use_psi=false
 
 # Media
 PRODUCT_PROPERTY_OVERRIDES += \
-    debug.stagefright.omx_default_rank=0 \
-    debug.stagefright.omx_default_rank.sw-audio=1 \
-    media.settings.xml=/vendor/etc/media_profiles_vendor.xml \
-    vendor.vidc.enc.disable.pq=true \
-    media.stagefright.thumbnail.prefer_hw_codecs=true \
+debug.stagefright.omx_default_rank=0 \
+debug.stagefright.omx_default_rank.sw-audio=1 \
+media.settings.xml=/vendor/etc/media_profiles_vendor.xml \
+vendor.vidc.enc.disable.pq=true \
+media.stagefright.thumbnail.prefer_hw_codecs=true \
 media.stagefright.enable-player=true \
 media.stagefright.enable-http=true \
 media.stagefright.enable-aac=true \
@@ -231,11 +231,11 @@ media.stagefright.enable-qcp=true \
 media.stagefright.enable-scan=true \
 mm.enable.smoothstreaming=true \
 mm.enable.sec.smoothstreaming=true \
-    ro.media.recorder-max-base-layer-fps=60 \
-    vendor.mm.enable.qcom_parser=16777215 \
-    vendor.vidc.dec.enable.downscalar=1 \
-    vendor.vidc.enc.disable_bframes=1 \
-    vendor.vidc.enc.disable.pq=true
+ro.media.recorder-max-base-layer-fps=60 \
+vendor.mm.enable.qcom_parser=16777215 \
+vendor.vidc.dec.enable.downscalar=1 \
+vendor.vidc.enc.disable_bframes=1 \
+vendor.vidc.enc.disable.pq=true
 
 # Logs
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -257,25 +257,25 @@ ro.vendor.extension_library=libqti-perfd-client.so
 
 # Radio
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.radio.multisim.config=dsds \
-    persist.vendor.data.iwlan.enable=true \
-    persist.vendor.data.mode=concurrent \
-    persist.vendor.radio.apm_sim_not_pwdn=1 \
-    persist.vendor.radio.atfwd.start=true \
-    persist.vendor.radio.custom_ecc=1 \
-    persist.vendor.radio.data_con_rprt=1 \
-    persist.vendor.radio.mt_sms_ack=30 \
-    persist.vendor.radio.rat_on=combine \
-    persist.vendor.radio.sib16_support=1 \
-    ro.telephony.default_network=22,22 \
-    ro.vendor.use_data_netmgrd=true
+persist.radio.multisim.config=dsds \
+persist.vendor.data.iwlan.enable=true \
+persist.vendor.data.mode=concurrent \
+persist.vendor.radio.apm_sim_not_pwdn=1 \
+persist.vendor.radio.atfwd.start=true \
+persist.vendor.radio.custom_ecc=1 \
+persist.vendor.radio.data_con_rprt=1 \
+persist.vendor.radio.mt_sms_ack=30 \
+persist.vendor.radio.rat_on=combine \
+persist.vendor.radio.sib16_support=1 \
+ro.telephony.default_network=22,22 \
+ro.vendor.use_data_netmgrd=true
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-    DEVICE_PROVISIONED=1 \
-    persist.sys.fflag.override.settings_network_and_internet_v2=true \
-    ro.telephony.handle_audio_direction_changes_between_call_state_changes=false \
-    ril.subscription.types=NV,RUIM \
-    telephony.lteOnCdmaDevice=1
+DEVICE_PROVISIONED=1 \
+persist.sys.fflag.override.settings_network_and_internet_v2=true \
+ro.telephony.handle_audio_direction_changes_between_call_state_changes=false \
+ril.subscription.types=NV,RUIM \
+telephony.lteOnCdmaDevice=1
 
 PRODUCT_PRODUCT_PROPERTIES += \
 ro.telephony.block_binder_thread_on_incoming_calls=false
@@ -287,13 +287,13 @@ persist.data.df.dev_name=rmnet_usb0
 
 # Sensor
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.sdk.sensors.gestures=false \
-    ro.vendor.sensors.cmc=false \
-    ro.vendor.sensors.facing=false \
-    ro.vendor.sensors.dev_ori=true \
-    ro.vendor.sensors.pmd=true \
-    ro.vendor.sensors.sta_detect=true \
-    ro.vendor.sensors.mot_detect=true
+ro.vendor.sdk.sensors.gestures=false \
+ro.vendor.sensors.cmc=false \
+ro.vendor.sensors.facing=false \
+ro.vendor.sensors.dev_ori=true \
+ro.vendor.sensors.pmd=true \
+ro.vendor.sensors.sta_detect=true \
+ro.vendor.sensors.mot_detect=true
 
 # Set system properties identifying the chipset
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
@@ -334,7 +334,7 @@ vendor.usb.use_gadget_hal=0
 
 # WFD
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-    persist.debug.wfd.enable=1
+persist.debug.wfd.enable=1
 
 # Zygote
 PRODUCT_PROPERTY_OVERRIDES += \

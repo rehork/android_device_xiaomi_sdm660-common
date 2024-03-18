@@ -440,7 +440,7 @@ PRODUCT_PACKAGES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power-service.xiaomi-libperfmgr \
+    android.hardware.power@1.3-service.xiaomi_sdm660-libperfmgr \
     android.hardware.power.stats@1.0-service.mock
 
 PRODUCT_COPY_FILES += \
@@ -466,6 +466,10 @@ PRODUCT_COPY_FILES += \
 # QMI
 PRODUCT_PACKAGES += \
     libjson
+
+# RenderScript HAL
+PRODUCT_PACKAGES += \
+    android.hardware.renderscript@1.0-impl
 
 # RIL
 PRODUCT_PACKAGES += \
